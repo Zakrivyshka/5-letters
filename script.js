@@ -13,16 +13,6 @@ window.addEventListener('DOMContentLoaded', function () {
         modal = document.querySelector('.lose_Game'),
         reset = document.querySelector('.reset');
 
-    if (indexWin === null) {
-        indexWin = 0;
-    }
-    if (indexGame === null) {
-        indexGame = 0;
-    }
-
-    document.querySelector('.value_Win').textContent += indexWin;
-    document.querySelector('.value_Game').textContent += indexGame;
-
     function winGame() {
         if (hidden == word) {
             modal.classList.add('green');
@@ -59,7 +49,6 @@ window.addEventListener('DOMContentLoaded', function () {
             })
             .then((data) => {
                 let [pos] = data.def;
-                console.log(pos.pos);
                 modal.textContent = '';
                 if (pos.pos === 'noun') {
                     checkLetter();
@@ -101,6 +90,21 @@ window.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('indexGame', indexGame);
     }
 
+    function addShcet() {
+
+        if (indexWin === null) {
+            indexWin = 0;
+        }
+        if (indexGame === null) {
+            indexGame = 0;
+        }
+
+        document.querySelector('.value_Win').textContent += localStorage.getItem('indexWin');
+        document.querySelector('.value_Game').textContent += localStorage.getItem('indexGame');
+    }
+    
+    addShcet();
+
     document.addEventListener('keydown', (event) => {
         if (/^\p{sc=Cyrillic}*$/u.test(event.key)) {
             addText(event.key.toUpperCase());
@@ -138,9 +142,9 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     reset.addEventListener('click', () => {
-        indexWin = 0;
-        indexGame = 0;
-        localStorage.setItem('indexWin', indexWin);
-        localStorage.setItem('indexGame', indexGame);
+        localStorage.clear();
+        localStorage.setItem('indexWin', 0);
+        localStorage.setItem('indexGame', 0);
+        window.location.reload();
     });
 });
